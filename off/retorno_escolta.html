@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planilha 3</title>
+    <style>
+        form {
+            width: 300px;
+            margin: 0 auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h2>Formulário de Cadastro</h2>
+    <form action="cadastro.php" method="post">
+        <label for="manifesto_planilha3">Manifesto:</label>
+        <input type="text" id="manifesto_planilha3" name="manifesto_planilha3" readonly>
+
+        <label for="saida">Ponto de encontro:</label>
+        <input type="text" id="saida" name="saida" value="" required>
+
+        <label for="destino">Destino:</label>
+        <input type="text" id="destino" name="destino" value="Busca em solicitação" readonly>
+
+        <h3>Dados do Motorista</h3>
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" required>
+
+        <label for="telefone">Telefone:</label>
+        <input type="text" id="telefone" name="telefone" required>
+
+        <label for="placa">Placa:</label>
+        <input type="text" id="placa" name="placa" required>
+
+        <label for="carreta">Carreta:</label>
+        <input type="text" id="carreta" name="carreta" required>
+
+        <label for="manifesto">Manifesto:</label>
+        <input type="text" id="manifesto" name="manifesto" required onchange="preencherPlanilhas()">
+
+
+        <h3>Dados do Agente</h3>
+        <label for="nome_agente">Nome:</label>
+        <input type="text" id="nome_agente" name="nome_agente" required>
+
+        <label for="telefone_agente">Telefone:</label>
+        <input type="text" id="telefone_agente" name="telefone_agente" required>
+
+        <label for="inicio_operacao">Início da Operação:</label>
+        <input type="text" id="inicio_operacao" name="inicio_operacao" required>
+
+        <label for="termino_operacao">Término da Operação:</label>
+        <input type="text" id="termino_operacao" name="termino_operacao" required>
+
+        <input type="submit" value="Cadastrar">
+    </form>
+
+    <script>
+        // Função para buscar e preencher os campos das outras planilhas quando o Manifesto na Planilha 3 é alterado
+        function preencherPlanilhas() {
+            var manifesto2 = document.getElementById('manifesto_planilha2').value;
+            var manifesto3 = document.getElementById('manifesto_planilha3').value;
+
+            if (manifesto2 === manifesto3) {
+                document.getElementById('destino').value = document.getElementById('destino_planilha2').value;
+            }
+        }
+    </script>
+</body>
+</html>

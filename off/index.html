@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planilha 1</title>
+    <script>
+        function preencherPlanilhas() {
+            var manifesto = document.getElementById('manifesto').value;
+
+            // Preencher a Planilha 2
+            document.getElementById('manifesto_planilha2').value = manifesto;
+
+            // Preencher a Planilha 3
+            document.getElementById('manifesto_planilha3').value = manifesto;
+        }
+    </script>
+</head>
+<body>
+    <h2>Calculadora de Distância entre Destino e Origem</h2>
+
+    <label for="manifesto">Manifesto:</label>
+    <input type="text" id="manifesto" name="manifesto" required onchange="preencherPlanilhas()">
+  
+    <form>
+        <label for="origem">Origem (Cidade):</label>
+        <input type="text" id="origem" name="origem" required><br><br>
+
+        <label for="destino">Destino (Cidade):</label>
+        <input type="text" id="destino" name="destino" required><br><br>
+
+        <label for="distancia">Distância (km):</label>
+        <input type="text" id="distancia" name="distancia" readonly><br><br>
+
+        <button type="button" onclick="calcularDistancia()">Calcular Distância</button><br><br>
+    </form>
+
+    <div id="map" style="height: 400px; width: 100%;"></div>
+
+    <script>
+        function calcularDistancia() {
+            var origem = document.getElementById("origem").value;
+            var destino = document.getElementById("destino").value;
+
+            if (origem === "" || destino === "") {
+                alert("Por favor, insira a origem e o destino.");
+                return;
+            }
+
+            // Carregar o arquivo JSON com as cidades
+            fetch('json/municipios.json')
+                .then(response => response.json())
+                .then(data => {
+                    // Procurar as coordenadas da origem e do destino no arquivo JSON
+                    var coordenadasOrigem = encontrarCoordenadas(data, origem);
+                    var coordenadasDestino = encontrarCoordenadas(data, destino);
+
+                    if (!coordenadasOrigem || !coordenadasDestino) {
+                        alert("Origem ou destino não encontrados.");
+                        return;
+                    }
+
+                    // Calcular a distância entre origem e destino
+                    var distancia = calcularDistanciaEntreCoordenadas(coordenadasOrigem, coordenadasDestino);
+
+                    // Exibir a distância no campo de texto
+                    document.getElementById("distancia").value = distancia.toFixed(2) + " km";
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar o arquivo JSON:', error);
+                });
+        }
+
+        function encontrarCoordenadas(data, cidade) {
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].nome.toLowerCase() === cidade.toLowerCase()) {
+                    return {
+                        lat: data[i].latitude,
+                        lng: data[i].longitude
+                    };
+                }
+            }
+            return null;
+        }
+
+        function calcularDistanciaEntreCoordenadas(coordOrigem, coordDestino) {
+            var R = 6371; // raio médio da Terra em km
+            var dLat = toRad(coordDestino.lat - coordOrigem.lat);
+            var dLon = toRad(coordDestino.lng - coordOrigem.lng);
+            var lat1 = toRad(coordOrigem.lat);
+            var lat2 = toRad(coordDestino.lat);
+
+            var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                    Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            var distancia = R * c;
+            return distancia;
+        }
+
+        function toRad(value) {
+            return value * Math.PI / 180;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planilha 2</title>
+    <style>
+        form {
+            width: 300px;
+            margin: 0 auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h2>Formulário de Cadastro</h2>  
+
+    <form action="cadastro.php" method="post">
+        <label for="manifesto_planilha2">Manifesto:</label>
+        <!-- Permitindo que o campo Manifesto seja preenchido manualmente -->
+        <input type="text" id="manifesto_planilha2" name="manifesto_planilha2" required>
+
+        <label for="equipe">Equipe:</label>
+        <input type="number" id="equipe" name="equipe" required>
+
+        <label for="saida">Distância antes do destino em KM:</label>
+        <input type="text" id="saida" name="saida" required>
+
+        <label for="destino">Destino (Cidade):</label>
+        <input type="text" id="destino" name="destino" required><br><br>
+
+        <h3>Dados do Motorista</h3>
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" required>
+
+        <label for="telefone">Telefone:</label>
+        <input type="text" id="telefone" name="telefone" required>
+
+        <label for="placa">Placa:</label>
+        <input type="text" id="placa" name="placa" required>
+
+        <label for="carreta">Carreta:</label>
+        <input type="text" id="carreta" name="carreta" required>
+
+        <label for="manifesto_planilha1">Manifesto:</label>
+        <!-- Campo manifesto na planilha 1 -->
+        <input type="text" id="manifesto_planilha1" name="manifesto_planilha1" required>
+
+        <h3>Solicitante</h3>
+        <label for="ssonic">Solicitado por:</label>
+        <select id="ssonic" name="ssonic">
+            <option value="">Edson</option>
+            <option value="">Gustavo</option>
+            <option value="">Douglas</option>
+        </select>
+
+        <label for="filial">Filial:</label>
+        <select id="filial" name="filial">
+            <option value="Campinas/ SP">Campinas/SP</option>
+            <option value="Belém/ PA">Belém/PA</option>
+        </select>
+
+        <input type="submit" value="Cadastrar">
+    </form>
+
+    <script>
+        // Função para buscar e preencher os campos das outras planilhas quando o Manifesto na Planilha 2 é alterado
+        function preencherPlanilhas() {
+            var manifesto = document.getElementById('manifesto_planilha2').value;
+            document.getElementById('manifesto_planilha1').value = manifesto;
+            // Você pode adicionar aqui o preenchimento dos campos de outras planilhas
+
+            // Preencher os campos "Destino" e "Distância" com os dados correspondentes da Planilha 1
+            var manifestoPlanilha1 = document.getElementById('manifesto_planilha1').value;
+            var destinoPlanilha1 = ''; // Aqui você deve buscar o destino correspondente ao manifesto na Planilha 1
+            var distanciaPlanilha1 = ''; // Aqui você deve buscar a distância correspondente ao manifesto na Planilha 1
+
+            document.getElementById('destino').value = destinoPlanilha1;
+            document.getElementById('saida').value = distanciaPlanilha1;
+        }
+    </script>
+</body>
+</html>

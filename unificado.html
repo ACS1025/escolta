@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitação</title>
+    <link rel="stylesheet" href="css/styles.css"> <!-- Vincula o arquivo CSS externo -->
+</head>
+
+<body>
+    
+    <div class="container">
+        <div class="column">
+            <div class="form-container distancia"> <!-- Corrigido: Adicionado class="form-container distancia" -->
+                <h3>Distância entre Destino e Origem</h3>
+                <form id="form_distancia">
+                    <!-- Campos do formulário -->
+                    <label for="origem">Origem (Cidade):</label>
+                    <input type="text" id="origem" name="origem" required><br><br>
+    
+                    <label for="destino">Destino (Cidade):</label>
+                    <input type="text" id="destino" name="destino" required><br><br>
+    
+                    <label for="distancia">Distância (km):</label>
+                    <input type="text" id="distancia" name="distancia" readonly><br><br>
+    
+                    <button type="button" onclick="calcularDistancia()">Calcular Distância</button><br><br>
+                </form>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="form-container supersonic">
+                <h2>Solicitação Supersonic</h2>
+                <form id="form_supersonic">
+                    <label for="manifesto_planilha2">Manifesto:</label>
+                    <input type="text" id="manifesto_planilha2" name="manifesto_planilha2" required><br><br>
+
+                    <label for="equipe">Equipe:</label>
+                    <input type="number" id="equipe" name="equipe" required><br><br>
+
+                    <label for="saida">Distância antes do destino em KM:</label>
+                    <input type="text" id="saida" name="saida" required><br><br>
+
+                    <label for="destino_solic_supersonic">Destino (Cidade):</label>
+                    <input type="text" id="destino_solic_supersonic" name="destino_solic_supersonic" required><br><br>
+                    
+                    <h3>Dados do Motorista</h3>
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="nome" required><br><br>
+
+                    <label for="telefone">Telefone:</label>
+                    <input type="text" id="telefone" name="telefone" required><br><br>
+
+                    <label for="placa">Placa:</label>
+                    <input type="text" id="placa" name="placa" required><br><br>
+
+                    <label for="carreta">Carreta:</label>
+                    <input type="text" id="carreta" name="carreta" required><br><br>
+                    
+                    <h3>Solicitante</h3>
+                    <label for="ssonic">Solicitado por:</label>
+                    <select id="ssonic" name="ssonic">
+                        <option value="">Edson</option>
+                        <option value="">Gustavo</option>
+                        <option value="">Douglas</option>
+                    </select><br><br>
+
+                    <label for="filial">Filial:</label>
+                    <select id="filial" name="filial">
+                        <option value="Campinas/ SP">Campinas/SP</option>
+                        <option value="Belém/ PA">Belém/PA</option>
+                    </select><br><br>
+
+                    <label for="data_solicitacao">Data de solicitação:</label>
+                    <input type="date" id="data_solicitacao" name="data_solicitacao" value="<?php echo date('Y-m-d'); ?>" readonly><br><br>
+                </form>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="form-container retorno">
+                <h2>Retorno Grupo Escolta</h2>
+                <form id="form_retorno_grupo">
+                    <label for="manifesto_planilha3">Manifesto:</label>
+                    <input type="text" id="manifesto_planilha3" name="manifesto_planilha3" required><br><br>
+
+                    <label for="saida_retorno_grupo">Ponto de encontro:</label>
+                    <input type="text" id="saida_retorno_grupo" name="saida_retorno_grupo" value="" required><br><br>
+
+                    <label for="destino_retorno_grupo">Destino (Cidade):</label>
+                    <input type="text" id="destino_retorno_grupo" name="destino_retorno_grupo" value="  " required><br><br>
+
+                    <h3>Dados do Agente 1</h3>
+                    <label for="nome_agente1">Nome:</label>
+                    <input type="text" id="nome_agente1" name="nome_agente1" required><br><br>
+
+                    <label for="telefone_agente1">Telefone:</label>
+                    <input type="text" id="telefone_agente1" name="telefone_agente1" required><br><br>
+
+                    <label for="placa_agente1">Placa:</label>
+                    <input type="text" id="placa_agente1" name="placa_agente1" required><br><br>
+
+
+                    <h3>Dados do Agente 2</h3>
+                    <label for="nome_agente2">Nome:</label>
+                    <input type="text" id="nome_agente2" name="nome_agente2" required><br><br>
+
+                    <label for="telefone_agente2">Telefone:</label>
+                    <input type="text" id="telefone_agente2" name="telefone_agente2" required><br><br>
+
+                    <!-- Início da Operação -->
+                    <label for="inicio_operacao">Início da Operação:</label>
+                    <input type="date" id="inicio_operacao" name="inicio_operacao" required><br><br>
+
+                    <!-- Término da Operação -->
+                    <label for="termino_operacao">Término da Operação:</label>
+                    <input type="date" id="termino_operacao" name="termino_operacao" required><br><br>
+                </form>
+            </div>
+        </div>
+    </div> <!-- Fechamento da div.container -->
+
+    <button type="button" onclick="cadastrarTudo()" class="cadastrar-button">Cadastrar</button>
+
+    <script>            // Função para enviar todos os dados dos formulários
+            function cadastrarTudo() {
+                var formDistancia = document.getElementById("form_distancia");
+                var formSupersonic = document.getElementById("form_supersonic");
+                var formRetornoGrupo = document.getElementById("form_retorno_grupo");
+    
+                // Combinar os dados dos formulários
+                var formData = new FormData(formDistancia);
+                var formDataSupersonic = new FormData(formSupersonic);
+                var formDataRetornoGrupo = new FormData(formRetornoGrupo);
+    
+                // Adicionar dados dos outros formulários ao primeiro
+                for (var pair of formDataSupersonic.entries()) {
+                    formData.append(pair[0], pair[1]);
+                }
+    
+                for (var pair of formDataRetornoGrupo.entries()) {
+                    formData.append(pair[0], pair[1]);
+                }
+    
+                // Enviar dados combinados para o servidor
+                fetch('cadastro.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert("Cadastro realizado com sucesso!");
+                        // Limpar os campos após o cadastro
+                        formDistancia.reset();
+                        formSupersonic.reset();
+                        formRetornoGrupo.reset();
+                    } else {
+                        alert("Ocorreu um erro ao cadastrar. Por favor, tente novamente.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao cadastrar:', error);
+                    alert("Ocorreu um erro ao cadastrar. Por favor, tente novamente.");
+                });
+            }
+        
+    
+            function preencherManifesto() {
+                var manifestoValue = document.getElementById('manifesto_planilha2').value;
+                var manifestoFields = document.querySelectorAll('input[name^="manifesto"]');
+    
+                manifestoFields.forEach(function(field) {
+                    field.value = manifestoValue;
+                });
+            }
+    
+            // Adiciona um evento onchange para chamar a função preencherManifesto() quando o manifesto no formulário 2 for alterado
+            document.getElementById('manifesto_planilha2').addEventListener('input', preencherManifesto);
+           
+            // Função para calcular a distância entre origem e destino
+            function calcularDistancia() {
+                var origem = document.getElementById("origem").value;
+                var destino = document.getElementById("destino").value;
+    
+                if (origem === "" || destino === "") {
+                    alert("Por favor, insira a origem e o destino.");
+                    return;
+                }
+    
+                // Carregar o arquivo JSON com as cidades
+                fetch('json/municipios.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Procurar as coordenadas da origem e do destino no arquivo JSON
+                        var coordenadasOrigem = encontrarCoordenadas(data, origem);
+                        var coordenadasDestino = encontrarCoordenadas(data, destino);
+    
+                        if (!coordenadasOrigem || !coordenadasDestino) {
+                            alert("Origem ou destino não encontrados.");
+                            return;
+                        }
+    
+                        // Calcular a distância entre origem e destino
+                        var distancia = calcularDistanciaEntreCoordenadas(coordenadasOrigem, coordenadasDestino);
+    
+                        // Exibir a distância no campo de texto
+                        document.getElementById("distancia").value = distancia.toFixed(2) + " km";
+                    })
+                    .catch(error => {
+                        console.error('Erro ao carregar o arquivo JSON:', error);
+                    });
+            }
+    
+            // Função para encontrar as coordenadas de uma cidade
+            function encontrarCoordenadas(data, cidade) {
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].nome.toLowerCase() === cidade.toLowerCase()) {
+                        return {
+                            lat: data[i].latitude,
+                            lng: data[i].longitude
+                        };
+                    }
+                }
+                return null;
+            }
+    
+            // Função para calcular a distância entre coordenadas
+            function calcularDistanciaEntreCoordenadas(coordOrigem, coordDestino) {
+                var R = 6371; // raio médio da Terra em km
+                var dLat = toRad(coordDestino.lat - coordOrigem.lat);
+                var dLon = toRad(coordDestino.lng - coordOrigem.lng);
+                var lat1 = toRad(coordOrigem.lat);
+                var lat2 = toRad(coordDestino.lat);
+    
+                var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                        Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                var distancia = R * c;
+                return distancia;
+            }
+    
+            // Função auxiliar para converter graus em radianos
+            function toRad(value) {
+                return value * Math.PI / 180;
+            }
+    
+            // Função para enviar todos os dados dos formulários
+            function cadastrarTudo() {
+                var formDistancia = document.getElementById("form_distancia");
+                var formSupersonic = document.getElementById("form_supersonic");
+                var formRetornoGrupo = document.getElementById("form_retorno_grupo");
+    
+                // Combinar os dados dos formulários
+                var formData = new FormData(formDistancia);
+                var formDataSupersonic = new FormData(formSupersonic);
+                var formDataRetornoGrupo = new FormData(formRetornoGrupo);
+    
+                // Adicionar dados dos outros formulários ao primeiro
+                for (var pair of formDataSupersonic.entries()) {
+                    formData.append(pair[0], pair[1]);
+                }
+    
+                for (var pair of formDataRetornoGrupo.entries()) {
+                    formData.append(pair[0], pair[1]);
+                }
+    
+                // Enviar dados combinados para o servidor
+                fetch('cadastro.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert("Cadastro realizado com sucesso!");
+                        // Limpar os campos após o cadastro
+                        formDistancia.reset();
+                        formSupersonic.reset();
+                        formRetornoGrupo.reset();
+                    } else {
+                        alert("Ocorreu um erro ao cadastrar. Por favor, tente novamente.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao cadastrar:', error);
+                    alert("Ocorreu um erro ao cadastrar. Por favor, tente novamente.");
+                });
+            }
+        </script>
+        <script src="src/scripts.js"></script>
+    </body>
+    </html>
+   
+    
